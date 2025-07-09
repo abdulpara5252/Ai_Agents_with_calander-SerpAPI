@@ -1,0 +1,335 @@
+{
+  "name": "Ai_Agents_with_calander & strpAPI",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "options": {
+          "loadPreviousSession": "memory"
+        }
+      },
+      "id": "a3abbea6-4792-47c4-bca0-e5849377257f",
+      "name": "When chat message received",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "position": [
+        0,
+        0
+      ],
+      "webhookId": "f04048f5-3043-4250-ab36-aa282c819a69",
+      "typeVersion": 1.1
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "=You are my intelligent personal assistant. Your role is to help me think critically, access structured external knowledge, and solve complex numerical problems. You have access to the following tools:\n\n1. **Think** – Use this tool to reason step-by-step before giving a final answer.\n2. **SerpAPI** – Use this to access verified external knowledge, including encyclopedic or factual data.\n3. **Calculator** – Use this to perform accurate numerical or mathematical computations.\n4 . **Google Calendar** - Use to create calendar events. You can get current date and time (IST) and schedule tasks/meetings/events as needed\n\nhere is current date/time : {{ $now }}\n\nYour goals:\n- Understand my task or question deeply before responding.\n- When unsure, think step-by-step using the `Think` tool.\n- For factual knowledge or concepts, use the `SerpAPI` tool.\n- For numerical tasks or financial calculations, use the `Calculator`.\n- Always explain your steps in a concise and professional way unless instructed otherwise.\n- Keep answers short and efficient unless asked for elaboration.\n-Automatically create, update, or suggest calendar events using natural language inputs.\n-Extract date, time, title, description, duration, and participants from user input.\n-Always confirm and format event data using the structure below:\n-Always act as a helpful, private, and reliable personal assistant."
+        }
+      },
+      "id": "a6a167ea-4dee-432b-a547-97c4f8538fb0",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "position": [
+        340,
+        0
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {},
+      "id": "16a0553a-05d5-4e7b-a90a-4d94b34e168b",
+      "name": "Think",
+      "type": "@n8n/n8n-nodes-langchain.toolThink",
+      "position": [
+        640,
+        200
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "2ef11d19-0ccc-4399-a722-bb40e3020fcc",
+      "name": "SerpAPI",
+      "type": "@n8n/n8n-nodes-langchain.toolSerpApi",
+      "position": [
+        1060,
+        200
+      ],
+      "typeVersion": 1,
+      "credentials": {
+        "serpApi": {
+          "id": "rrRZNfP4xHQ97QjO",
+          "name": "SerpAPI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro-preview-06-05",
+        "options": {}
+      },
+      "id": "3c7dbbcd-27c3-4f09-9866-595e3e548e14",
+      "name": "Google Gemini Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "position": [
+        80,
+        200
+      ],
+      "typeVersion": 1,
+      "credentials": {
+        "googlePalmApi": {
+          "id": "LZzMh8cNIZcUMCQY",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "1bf16bfa-ad13-4dd7-b54c-0e476c7e4150",
+      "name": "Calculator",
+      "type": "@n8n/n8n-nodes-langchain.toolCalculator",
+      "position": [
+        860,
+        200
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {},
+      "id": "2b533fd2-1f30-4f5f-aa16-f383cde0b94d",
+      "name": "Simple Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "position": [
+        280,
+        220
+      ],
+      "typeVersion": 1.3
+    },
+    {
+      "parameters": {
+        "content": "## 👆\nThis is a short term memory. It will remember the 5 previous interactions during the chat",
+        "height": 180,
+        "width": 150,
+        "color": 7
+      },
+      "id": "4b0e1e62-7b4d-47c2-aaf0-1857b9e1cfec",
+      "name": "Sticky Note17",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        240,
+        360
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## 👆\nYou can use  the free Google Gemini options.",
+        "height": 180,
+        "width": 170,
+        "color": 7
+      },
+      "id": "4b41642b-78a6-4eb7-b7b8-08d8ec90ded7",
+      "name": "Sticky Note18",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        20,
+        360
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## 👆\nThe Calculator is a tool that allows an agent to run mathematical calculations.",
+        "height": 180,
+        "width": 150,
+        "color": 7
+      },
+      "id": "d59e725e-d484-49da-a089-6ef6cde825a9",
+      "name": "Sticky Note19",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        840,
+        340
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## 👆\nThe Think is a tool Enables step-by-step reasoning before answering.",
+        "height": 180,
+        "width": 150,
+        "color": 7
+      },
+      "id": "c14af1c3-030f-4d83-99db-6bf6656d6dad",
+      "name": "Sticky Note20",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        640,
+        340
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## 👆\nThe SerpAPI is a tool that allows Performs real-time Google Search using SerpAPI to retrieve factual, up-to-date information.",
+        "height": 240,
+        "width": 150,
+        "color": 7
+      },
+      "id": "28c5fef4-0a66-4ea8-bed3-10e8bbf9757d",
+      "name": "Sticky Note21",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1040,
+        340
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## 👆\nThis is a create event for new event create ",
+        "height": 180,
+        "width": 150,
+        "color": 7
+      },
+      "id": "314c5edd-817f-4014-bec5-97b2229bdf90",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        440,
+        360
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "abdulparawala.ap@gmail.com",
+          "mode": "list",
+          "cachedResultName": "abdulparawala.ap@gmail.com"
+        },
+        "start": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Start', ``, 'string') }}",
+        "end": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('End', ``, 'string') }}",
+        "additionalFields": {
+          "summary": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Summary', ``, 'string') }}"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        460,
+        220
+      ],
+      "id": "4a18be69-9fd6-486d-88ca-6fe69ae3a958",
+      "name": "Create an event in Google Calendar",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "s9kbhml24jk0HgkC",
+          "name": "Google Calendar account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Think": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SerpAPI": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculator": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          },
+          {
+            "node": "When chat message received",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        []
+      ]
+    },
+    "Create an event in Google Calendar": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "a5e11bb8-3cdb-4b17-ac16-419e6b374e7b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "1442c1274dcd3307dd37bbc785e420d3003e2acccdaa33e48c6d91bf608857fc"
+  },
+  "id": "DaJXzeIr2fUlHwws",
+  "tags": []
+}
